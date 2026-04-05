@@ -784,15 +784,17 @@
       ? 'vc-theme-dark'
       : (explicitTheme === 'light' ? '' : (variant === 'B' ? 'vc-theme-dark' : ''));
 
-    var title    = getAttr(container, 'title',    'Choose Your Package');
-    var subtitle = getAttr(container, 'subtitle', 'Select the best value for your needs');
+    // Only render title/subtitle when the attributes are explicitly set and non-empty
+    var title    = container.hasAttribute('data-title')    ? container.getAttribute('data-title')    : '';
+    var subtitle = container.hasAttribute('data-subtitle') ? container.getAttribute('data-subtitle') : '';
 
     var wrapper = document.createElement('div');
     wrapper.className = 'vc-bump-wrapper ' + theme;
 
-    wrapper.innerHTML =
-      '<div class="vc-bump-title">' + title + '</div>' +
-      '<div class="vc-bump-subtitle">' + subtitle + '</div>';
+    var headerHTML = '';
+    if (title)    headerHTML += '<div class="vc-bump-title">'    + title    + '</div>';
+    if (subtitle) headerHTML += '<div class="vc-bump-subtitle">' + subtitle + '</div>';
+    wrapper.innerHTML = headerHTML;
 
     var grid = document.createElement('div');
     grid.className = 'vc-bump-grid';
