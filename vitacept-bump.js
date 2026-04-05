@@ -661,9 +661,14 @@
     var savings = cfg.full - cfg.total;
 
     var card = document.createElement('a');
-    card.href = cfg.href;
+    // Store the destination URL in a data attribute.
+    // We intentionally do NOT set card.href here because platforms like Atomicat
+    // replace href with a broken javascript: URI that causes SyntaxError on click.
+    // Instead we intercept the click and navigate manually.
+    card.setAttribute('data-vc-href', cfg.href);
     card.className = 'vc-card' + (isBest ? ' vc-best' : '');
-    card.setAttribute('target', '_self');
+    card.setAttribute('role', 'link');
+    card.style.cursor = 'pointer';
 
     var inner = '';
 
@@ -721,24 +726,35 @@
 
     card.innerHTML = inner;
 
-    // ── Ripple on click ──────────────────────────────────────────────────
+    // ── Click: ripple + navigation ────────────────────────────────────────
     card.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Ripple effect on the button
       var btn = card.querySelector('.vc-btn');
-      if (!btn) return;
-      var rect = btn.getBoundingClientRect();
-      var size = Math.max(rect.width, rect.height) * 1.2;
-      var x = e.clientX - rect.left - size / 2;
-      var y = e.clientY - rect.top  - size / 2;
-      var circle = document.createElement('span');
-      circle.className = 'vc-ripple-circle';
-      circle.style.cssText = [
-        'width:'  + size + 'px',
-        'height:' + size + 'px',
-        'left:'   + x    + 'px',
-        'top:'    + y    + 'px'
-      ].join(';');
-      btn.appendChild(circle);
-      circle.addEventListener('animationend', function () { circle.remove(); });
+      if (btn) {
+        var rect = btn.getBoundingClientRect();
+        var size = Math.max(rect.width, rect.height) * 1.2;
+        var x = e.clientX - rect.left - size / 2;
+        var y = e.clientY - rect.top  - size / 2;
+        var circle = document.createElement('span');
+        circle.className = 'vc-ripple-circle';
+        circle.style.cssText = [
+          'width:'  + size + 'px',
+          'height:' + size + 'px',
+          'left:'   + x    + 'px',
+          'top:'    + y    + 'px'
+        ].join(';');
+        btn.appendChild(circle);
+        circle.addEventListener('animationend', function () { circle.remove(); });
+      }
+
+      // Navigate to the stored URL (ignores any href mutation by the platform)
+      var dest = card.getAttribute('data-vc-href') || cfg.href;
+      if (dest && dest !== '#') {
+        setTimeout(function () { window.location.href = dest; }, 120);
+      }
     });
 
     return card;
