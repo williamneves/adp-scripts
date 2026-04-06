@@ -707,7 +707,8 @@
 
     inner += '<div class="vc-guarantee-text">' + cfg.guarantee + ' DAYS GUARANTEE</div>';
 
-    var btnClass = 'vc-btn' + (isBest ? ' vc-btn-best' : '');
+    var extraBtnClass = cfg.buttonClass ? ' ' + cfg.buttonClass : '';
+    var btnClass = 'vc-btn' + (isBest ? ' vc-btn-best' : '') + ' smartplayer-click-event' + extraBtnClass;
     inner += '<span class="' + btnClass + '">';
     inner += (cfg.buttonText || 'BUY NOW');
     if (cfg.aux) inner += '<br><span class="vc-btn-aux">' + cfg.aux + '</span>';
@@ -816,7 +817,7 @@
     offerArr.forEach(function (el, domIdx) {
       var offerType = getAttr(el, 'offer', 'basic');
       var cfg = {
-        href:          el.getAttribute('href') || el.getAttribute('data-href') || '#',
+        href:          el.getAttribute('data-vc-original-href') || el.getAttribute('data-href') || el.getAttribute('href') || '#',
         offer:         offerType,
         headline:      getAttr(el, 'headline',      'Package'),
         description:   getAttr(el, 'description',   ''),
@@ -828,6 +829,7 @@
         valueRound:    getAttr(el, 'value-round',   'no'),
         buttonText:    getAttr(el, 'button-text',   'BUY NOW'),
         aux:           getAttr(el, 'aux',            ''),
+        buttonClass:   getAttr(el, 'button-class',  ''),
         // data-order: mobile position (1=top). data-desktop-order: desktop position (1=left).
         // Falls back to defaults by offer type if not specified.
         mobileOrder:  el.hasAttribute('data-order')
@@ -852,6 +854,34 @@
       bubbles: true,
       detail: { variant: variant }
     }));
+  }
+
+  // ── Preserve original hrefs before any platform script mutates them ────────
+  // Atomicat (atomicpixel.js) replaces href with a javascript: URI for tracking.
+  // We snapshot the real URL immediately into data-vc-original-href so it
+  // survives any later mutation.
+  var _hrefCache = {};
+  var _hrefCacheIdx = 0;
+
+  function snapshotHrefs() {
+    document.querySelectorAll('.vc-offer').forEach(function (el) {
+      if (!el.hasAttribute('data-vc-original-href')) {
+        var raw = el.getAttribute('href') || el.getAttribute('data-href') || '';
+        // Only store if it looks like a real URL (not already a javascript: URI)
+        if (raw && raw.indexOf('javascript:') !== 0) {
+          el.setAttribute('data-vc-original-href', raw);
+        }
+      }
+    });
+  }
+
+  // Run immediately (synchronously) so we beat any deferred platform scripts
+  snapshotHrefs();
+
+  // Also watch for dynamically added .vc-offer elements
+  if (typeof MutationObserver !== 'undefined') {
+    var _mo = new MutationObserver(function () { snapshotHrefs(); });
+    _mo.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
   }
 
   // ── Auto-init ────────────────────────────────────────────────────────────
