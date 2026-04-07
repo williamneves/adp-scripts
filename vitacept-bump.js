@@ -1,7 +1,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '2.17.0';
+  var VERSION = '2.19.0';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -516,7 +516,7 @@
   }
 
   // ── Variant A renderer ───────────────────────────────────────────────────
-  function buildCardA(cfg) {
+  function buildCardA(cfg, container) {
     var isBest = cfg.offer === 'promo';
     var imgSrc = IMAGES[String(cfg.bottles)] || '';
     var shippingFree = (cfg.shipping === 'Free' || cfg.shipping === '0' || cfg.shipping === '');
@@ -526,6 +526,8 @@
 
     var card = document.createElement('a');
     card.setAttribute('data-vc-href', cfg.href);
+    // Set href so UTMify and other tracking scripts can append their params correctly
+    if (cfg.href && cfg.href !== '#') card.href = cfg.href;
     card.className = 'vc-a-card smartplayer-click-event' + (isBest ? ' vc-a-best' : '');
     card.setAttribute('role', 'link');
     card.setAttribute('data-version', VERSION);
@@ -550,20 +552,29 @@
     inner += '<div class="vc-a-shipping ' + (shippingFree ? 'free' : 'paid') + '">' + (shippingFree ? '+ FREE SHIPPING' : '+ $' + cfg.shipping + ' SHIPPING') + '</div>';
     card.innerHTML = inner;
 
-    card.addEventListener('click', function (e) {
+    function handleCardActivation(e) {
       e.preventDefault(); e.stopPropagation();
+      // Track click before navigation
+      trackEvent(container, 'click', cfg.offer);
       var btn = card.querySelector('.vc-a-btn');
       if (btn) {
         var rect = btn.getBoundingClientRect();
         var size = Math.max(rect.width, rect.height) * 1.2;
         var circle = document.createElement('span');
         circle.className = 'vc-a-ripple-circle';
-        circle.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (e.clientX - rect.left - size / 2) + 'px;top:' + (e.clientY - rect.top - size / 2) + 'px;';
+        var cx = e.clientX != null ? e.clientX : rect.left + rect.width / 2;
+        var cy = e.clientY != null ? e.clientY : rect.top + rect.height / 2;
+        circle.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (cx - rect.left - size / 2) + 'px;top:' + (cy - rect.top - size / 2) + 'px;';
         btn.appendChild(circle);
         circle.addEventListener('animationend', function () { circle.remove(); });
       }
-      var dest = card.getAttribute('data-vc-href') || cfg.href;
+      // Prefer card.href (live value — UTMify may have appended params) over data-vc-href (original)
+      var dest = (card.href && card.href !== window.location.href) ? card.href : (card.getAttribute('data-vc-href') || cfg.href);
       if (dest && dest !== '#') setTimeout(function () { window.location.href = dest; }, 120);
+    }
+    card.addEventListener('click', handleCardActivation);
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') handleCardActivation(e);
     });
     return card;
   }
@@ -586,7 +597,7 @@
     var offerClass = container.querySelectorAll('.vc-a-offer').length > 0 ? 'vc-a-offer' : 'vc-offer';
     var offers = readOffers(container, offerClass);
     offers.forEach(function (cfg) {
-      var card = buildCardA(cfg);
+      var card = buildCardA(cfg, container);
       card.style.setProperty('--vc-order-mobile',  String(cfg.mobileOrder));
       card.style.setProperty('--vc-order-desktop', String(cfg.desktopOrder));
       grid.appendChild(card);
@@ -598,7 +609,7 @@
   }
 
   // ── Variant B renderer ───────────────────────────────────────────────────
-  function buildCardB(cfg) {
+  function buildCardB(cfg, container) {
     var isBest = cfg.offer === 'promo';
     var imgSrc = IMAGES[String(cfg.bottles)] || '';
     var shippingFree = (cfg.shipping === 'Free' || cfg.shipping === '0' || cfg.shipping === '');
@@ -618,6 +629,8 @@
 
     var card = document.createElement('a');
     card.setAttribute('data-vc-href', cfg.href);
+    // Set href so UTMify and other tracking scripts can append their params correctly
+    if (cfg.href && cfg.href !== '#') card.href = cfg.href;
     card.className = 'vc-b-card smartplayer-click-event' + (isBest ? ' vc-b-best' : '');
     card.setAttribute('role', 'link');
     card.setAttribute('data-version', VERSION);
@@ -645,22 +658,30 @@
     inner += '<div class="vc-b-shipping ' + (shippingFree ? 'free' : 'paid') + '">' + (shippingFree ? '+ FREE SHIPPING' : '+ $' + cfg.shipping + ' SHIPPING') + '</div>';
     card.innerHTML = inner;
 
-    card.addEventListener('click', function (e) {
+    function handleCardBActivation(e) {
       e.preventDefault(); e.stopPropagation();
+      // Track click before navigation
+      trackEvent(container, 'click', cfg.offer);
       var btn = card.querySelector('.vc-b-btn');
       if (btn) {
         var rect = btn.getBoundingClientRect();
         var size = Math.max(rect.width, rect.height) * 1.2;
         var circle = document.createElement('span');
         circle.className = 'vc-b-ripple-circle';
-        circle.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (e.clientX - rect.left - size / 2) + 'px;top:' + (e.clientY - rect.top - size / 2) + 'px;';
+        var cx = e.clientX != null ? e.clientX : rect.left + rect.width / 2;
+        var cy = e.clientY != null ? e.clientY : rect.top + rect.height / 2;
+        circle.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (cx - rect.left - size / 2) + 'px;top:' + (cy - rect.top - size / 2) + 'px;';
         btn.appendChild(circle);
         circle.addEventListener('animationend', function () { circle.remove(); });
       }
-      var dest = card.getAttribute('data-vc-href') || cfg.href;
+      // Prefer card.href (live value — UTMify may have appended params) over data-vc-href (original)
+      var dest = (card.href && card.href !== window.location.href) ? card.href : (card.getAttribute('data-vc-href') || cfg.href);
       if (dest && dest !== '#') setTimeout(function () { window.location.href = dest; }, 120);
+    }
+    card.addEventListener('click', handleCardBActivation);
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') handleCardBActivation(e);
     });
-
     wrap.appendChild(card);
     return wrap;
   }
@@ -683,7 +704,7 @@
     var offerClass = container.querySelectorAll('.vc-b-offer').length > 0 ? 'vc-b-offer' : 'vc-offer';
     var offers = readOffers(container, offerClass);
     offers.forEach(function (cfg) {
-      var wrap = buildCardB(cfg);
+      var wrap = buildCardB(cfg, container);
       wrap.style.setProperty('--vc-order-mobile',  String(cfg.mobileOrder));
       wrap.style.setProperty('--vc-order-desktop', String(cfg.desktopOrder));
       grid.appendChild(wrap);
@@ -708,18 +729,27 @@
     var widgetId = container.getAttribute('data-widget-id') || 'default';
     var variant  = container.getAttribute('data-vc-variant') || 'A';
     if (!trackUrl) return;
+    var payload = JSON.stringify({
+      widgetId: widgetId,
+      variant: variant,
+      event: eventType,
+      offerType: offerType || null,
+      sessionId: getSessionId(),
+      ts: Date.now()
+    });
+    // Use sendBeacon for clicks — guaranteed to fire even when page is navigating away
+    if (eventType === 'click' && typeof navigator !== 'undefined' && navigator.sendBeacon) {
+      try {
+        navigator.sendBeacon(trackUrl, new Blob([payload], { type: 'application/json' }));
+        return;
+      } catch(e) {}
+    }
+    // Fallback: fetch with keepalive
     try {
       fetch(trackUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          widgetId: widgetId,
-          variant: variant,
-          event: eventType,
-          offerType: offerType || null,
-          sessionId: getSessionId(),
-          ts: Date.now()
-        }),
+        body: payload,
         keepalive: true
       });
     } catch(e) {}
@@ -735,9 +765,17 @@
     }
     // Track impression after render
     setTimeout(function() { trackEvent(container, 'impression', null); }, 200);
-    // Track clicks on offer links
+    // Track clicks on rendered BUY NOW buttons and cards
     container.addEventListener('click', function(e) {
-      var link = e.target.closest('.vc-offer, .vc-a-offer, .vc-b-offer, [data-vc-original-href], .vc-a-btn, .vc-b-btn');
+      // Target the rendered card element which has data-vc-href
+      var card = e.target.closest('[data-vc-href]');
+      if (card) {
+        var offerType = card.getAttribute('data-offer') || null;
+        trackEvent(container, 'click', offerType);
+        return;
+      }
+      // Fallback: target original offer anchors or rendered buttons
+      var link = e.target.closest('.vc-offer, .vc-a-offer, .vc-b-offer, .vc-a-btn, .vc-b-btn');
       if (!link) return;
       var offerType = link.getAttribute('data-offer') || null;
       trackEvent(container, 'click', offerType);
