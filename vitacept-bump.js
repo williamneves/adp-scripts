@@ -1,7 +1,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '2.19.0';
+  var VERSION = '2.20.0';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -553,7 +553,7 @@
     card.innerHTML = inner;
 
     function handleCardActivation(e) {
-      e.preventDefault(); e.stopPropagation();
+      e.preventDefault(); // Note: do NOT stopPropagation — SmartPlayer/Vturb listens on window (bubble phase)
       // Track click before navigation
       trackEvent(container, 'click', cfg.offer);
       var btn = card.querySelector('.vc-a-btn');
@@ -659,7 +659,7 @@
     card.innerHTML = inner;
 
     function handleCardBActivation(e) {
-      e.preventDefault(); e.stopPropagation();
+      e.preventDefault(); // Note: do NOT stopPropagation — SmartPlayer/Vturb listens on window (bubble phase)
       // Track click before navigation
       trackEvent(container, 'click', cfg.offer);
       var btn = card.querySelector('.vc-b-btn');
