@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.2.0';
+  var VERSION = '1.3.0';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -166,29 +166,33 @@
     }
     .vc-a-card.vc-a-best .vc-a-card-headline { color: #e8c84a; }
     .vc-a-card.vc-a-best .vc-a-card-header { border-color: rgba(201,162,39,0.35); }
-    .vc-a-card.vc-a-best .vc-a-price-unit { color: #aaa; }
-    .vc-a-card.vc-a-best .vc-a-guarantee-text { color: #aaa; }
-    .vc-a-card.vc-a-best .vc-a-total-row { color: #ccc; }
-    .vc-a-card.vc-a-best .vc-a-total-now { color: #f0f0f0; }
+    .vc-a-card.vc-a-best .vc-a-price-unit { color: #fff; }
+    .vc-a-card.vc-a-best .vc-a-guarantee-text { color: rgba(255,255,255,0.85); }
+    .vc-a-card.vc-a-best .vc-a-total-row { color: #fff; }
+    .vc-a-card.vc-a-best .vc-a-total-label { color: #fff; }
+    .vc-a-card.vc-a-best .vc-a-total-full { color: rgba(255,255,255,0.55); }
+    .vc-a-card.vc-a-best .vc-a-total-now { color: #fff; }
+    .vc-a-card.vc-a-best .vc-a-card-desc { color: rgba(255,255,255,0.75); }
     .vc-a-badge-top {
       position: absolute;
-      top: -18px;
+      top: -22px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(90deg, #c9a227, #a07a10);
-      color: #fff;
-      font-size: 12px;
+      background: linear-gradient(90deg, #e8c84a, #c9a227, #8a6510);
+      color: #0d1b4b;
+      font-size: 15px;
       font-weight: 900;
-      padding: 6px 22px;
-      border-radius: 20px;
+      padding: 9px 32px;
+      border-radius: 30px;
       white-space: nowrap;
-      letter-spacing: 0.8px;
-      box-shadow: 0 4px 14px rgba(201,162,39,0.50);
+      letter-spacing: 1.2px;
+      box-shadow: 0 4px 18px rgba(201,162,39,0.70), 0 2px 0 rgba(255,255,255,0.30) inset;
       text-transform: uppercase;
-      min-width: 120px;
+      min-width: 160px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 2px solid rgba(255,255,255,0.50);
     }
     .vc-a-card-header {
       width: 100%;
