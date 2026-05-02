@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.3.0';
+  var VERSION = '1.4.0';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -178,21 +178,21 @@
       top: -22px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(90deg, #e8c84a, #c9a227, #8a6510);
-      color: #0d1b4b;
+      background: linear-gradient(135deg, #0d1b4b 0%, #1a2e6e 100%);
+      color: #fff;
       font-size: 15px;
       font-weight: 900;
-      padding: 9px 32px;
+      padding: 10px 36px;
       border-radius: 30px;
       white-space: nowrap;
-      letter-spacing: 1.2px;
-      box-shadow: 0 4px 18px rgba(201,162,39,0.70), 0 2px 0 rgba(255,255,255,0.30) inset;
+      letter-spacing: 1.4px;
+      box-shadow: 0 4px 20px rgba(13,27,75,0.55), 0 0 0 3px #c9a227, 0 0 0 5px rgba(201,162,39,0.30);
       text-transform: uppercase;
       min-width: 160px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid rgba(255,255,255,0.50);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.30);
     }
     .vc-a-card-header {
       width: 100%;
@@ -394,7 +394,7 @@
 
     var inner = '';
     if ( isBest ) inner += '<span class="vc-a-badge-top">' + ( cfg.headline || 'Best Value!' ) + '</span>';
-    inner += '<div class="vc-a-card-header"><div class="vc-a-card-headline">' + cfg.headline + '</div><div class="vc-a-card-desc">' + cfg.description + '</div></div>';
+    inner += '<div class="vc-a-card-header">' + ( isBest ? '' : '<div class="vc-a-card-headline">' + cfg.headline + '</div>' ) + '<div class="vc-a-card-desc">' + cfg.description + '</div></div>';
     inner += '<div class="vc-a-img-wrap">';
     if ( imgSrc ) inner += '<img src="' + imgSrc + '" alt="' + cfg.bottles + ' bottles" loading="lazy" />';
     inner += '<div class="vc-a-guarantee-badge">' + BADGE_SVG + '</div>';
