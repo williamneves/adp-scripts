@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.1.0';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -48,13 +48,14 @@
       + makeImgIcon( AMEX_CDN, 'Amex', w, h );
   }
 
-  // ── Guarantee badge (for Variant A) ─────────────────────────────────────
+  // ── Guarantee badge ──────────────────────────────────────────────────────
+  // Neurotyde colors: navy #0d1b4b, gold #c9a227
   var BADGE_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" width="72" height="72">'
-    + '<circle cx="45" cy="45" r="43" fill="#C8960C" stroke="#F7D060" stroke-width="2"/>'
-    + '<circle cx="45" cy="45" r="36" fill="#8B6914"/>'
-    + '<text x="45" y="30" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#FFE566">MONEY BACK</text>'
-    + '<text x="45" y="48" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#FFE566">100%</text>'
-    + '<text x="45" y="62" text-anchor="middle" font-family="Arial" font-size="7.5" font-weight="bold" fill="#FFE566">GUARANTEED</text>'
+    + '<circle cx="45" cy="45" r="43" fill="#c9a227" stroke="#e8c84a" stroke-width="2"/>'
+    + '<circle cx="45" cy="45" r="36" fill="#0d1b4b"/>'
+    + '<text x="45" y="30" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#e8c84a">MONEY BACK</text>'
+    + '<text x="45" y="48" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#e8c84a">100%</text>'
+    + '<text x="45" y="62" text-anchor="middle" font-family="Arial" font-size="7.5" font-weight="bold" fill="#e8c84a">GUARANTEED</text>'
     + '</svg>';
 
   // ── Shared helper ────────────────────────────────────────────────────────
@@ -62,25 +63,12 @@
     return el.getAttribute( 'data-' + key ) || fallback;
   }
 
-  // ── A/B variant selection ────────────────────────────────────────────────
-  // Returns 'A' or 'B'.
-  // - If container has class vc-a-bump → always A
-  // - If container has class vc-b-bump → always B
-  // - If container has data-ab-variant="A" or "B" → use that
-  // - Otherwise: 50/50 via sessionStorage (consistent per session)
-  function pickVariant( container ) {
-    if ( container.classList.contains( 'vc-a-bump' ) ) return 'A';
-    if ( container.classList.contains( 'vc-b-bump' ) ) return 'B';
-    var forced = container.getAttribute( 'data-ab-variant' );
-    if ( forced === 'A' || forced === 'B' ) return forced;
-    var stored = sessionStorage.getItem( 'vc_ab_variant' );
-    if ( stored === 'A' || stored === 'B' ) return stored;
-    var v = Math.random() < 0.5 ? 'A' : 'B';
-    sessionStorage.setItem( 'vc_ab_variant', v );
-    return v;
+  // ── Always Variant A ─────────────────────────────────────────────────────
+  function pickVariant() {
+    return 'A';
   }
 
-  // ── CSS ──────────────────────────────────────────────────────────────────
+  // ── CSS — Variant A only (Neurotyde navy + gold palette) ─────────────────
   var CSS_A = `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -95,7 +83,7 @@
       text-align: center;
       font-size: clamp(18px, 3vw, 26px);
       font-weight: 800;
-      color: #1a1a2e;
+      color: #0d1b4b;
       margin-bottom: 8px;
       letter-spacing: -0.3px;
     }
@@ -132,7 +120,7 @@
     .vc-a-card {
       background: #fff;
       border-radius: 18px;
-      border: 2px solid #e0e4ef;
+      border: 2px solid #c9a227;
       padding: 28px 24px 24px;
       flex: 1 1 260px;
       max-width: 310px;
@@ -146,25 +134,25 @@
       color: inherit;
       position: relative;
       transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease, border-color 0.2s ease;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(13,27,75,0.10);
     }
     .vc-a-card:not(.vc-a-best):hover {
       transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 16px 40px rgba(200,150,12,0.18), 0 4px 14px rgba(0,0,0,0.07);
-      border-color: #e0e4ef;
+      box-shadow: 0 16px 40px rgba(201,162,39,0.22), 0 4px 14px rgba(0,0,0,0.07);
+      border-color: #c9a227;
       text-decoration: none;
       color: inherit;
     }
     .vc-a-card:hover .vc-a-img-wrap img {
       transform: scale(1.10) translateY(-6px);
-      filter: drop-shadow(0 0 16px rgba(200,150,12,0.45)) drop-shadow(0 8px 18px rgba(0,0,0,0.14));
+      filter: drop-shadow(0 0 16px rgba(201,162,39,0.45)) drop-shadow(0 8px 18px rgba(0,0,0,0.14));
     }
     .vc-a-card.vc-a-best {
-      border-color: #c8960c;
+      border-color: #c9a227;
       border-width: 2.5px;
-      background: linear-gradient(160deg, #1e2235 55%, #2a2210);
+      background: linear-gradient(160deg, #0d1b4b 55%, #1a2e6e);
       color: #f0f0f0;
-      box-shadow: 0 12px 40px rgba(200,150,12,0.28), 0 4px 16px rgba(0,0,0,0.25);
+      box-shadow: 0 12px 40px rgba(201,162,39,0.30), 0 4px 16px rgba(0,0,0,0.25);
       transform: scale(1.06);
       z-index: 2;
       max-width: 340px;
@@ -172,12 +160,12 @@
     }
     .vc-a-card.vc-a-best:hover {
       transform: translateY(-10px) scale(1.10);
-      border-color: #f7b600;
+      border-color: #e8c84a;
       border-width: 3px;
-      box-shadow: 0 28px 60px rgba(200,150,12,0.42), 0 0 0 4px rgba(247,182,0,0.22), 0 6px 20px rgba(0,0,0,0.10);
+      box-shadow: 0 28px 60px rgba(201,162,39,0.45), 0 0 0 4px rgba(232,200,74,0.22), 0 6px 20px rgba(0,0,0,0.10);
     }
-    .vc-a-card.vc-a-best .vc-a-card-headline { color: #f0f0f0; }
-    .vc-a-card.vc-a-best .vc-a-card-header { border-color: #2e3250; }
+    .vc-a-card.vc-a-best .vc-a-card-headline { color: #e8c84a; }
+    .vc-a-card.vc-a-best .vc-a-card-header { border-color: rgba(201,162,39,0.35); }
     .vc-a-card.vc-a-best .vc-a-price-unit { color: #aaa; }
     .vc-a-card.vc-a-best .vc-a-guarantee-text { color: #aaa; }
     .vc-a-card.vc-a-best .vc-a-total-row { color: #ccc; }
@@ -187,7 +175,7 @@
       top: -18px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(90deg, #f7b600, #e07b00);
+      background: linear-gradient(90deg, #c9a227, #a07a10);
       color: #fff;
       font-size: 12px;
       font-weight: 900;
@@ -195,7 +183,7 @@
       border-radius: 20px;
       white-space: nowrap;
       letter-spacing: 0.8px;
-      box-shadow: 0 4px 14px rgba(240,140,0,0.45);
+      box-shadow: 0 4px 14px rgba(201,162,39,0.50);
       text-transform: uppercase;
       min-width: 120px;
       display: flex;
@@ -205,10 +193,10 @@
     .vc-a-card-header {
       width: 100%;
       padding-bottom: 16px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #e0d4a0;
       margin-bottom: 16px;
     }
-    .vc-a-card-headline { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
+    .vc-a-card-headline { font-size: 20px; font-weight: 800; color: #0d1b4b; margin-bottom: 4px; }
     .vc-a-card-desc { font-size: 13px; color: #888; font-weight: 500; }
     .vc-a-img-wrap {
       position: relative;
@@ -217,22 +205,22 @@
       justify-content: center;
       align-items: flex-end;
       margin-bottom: 12px;
-      min-height: 145px;
+      min-height: 189px;
     }
     .vc-a-img-wrap img {
       max-width: 100%;
-      max-height: 175px;
+      max-height: 228px;
       object-fit: contain;
       transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), filter 0.3s ease;
-      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.10));
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.12));
     }
     .vc-a-guarantee-badge { position: absolute; bottom: -8px; right: 0; }
     .vc-a-price-block { margin: 8px 0 6px; }
     .vc-a-price-per { display: flex; align-items: flex-end; justify-content: center; gap: 4px; }
-    .vc-a-price-dollar { font-size: 24px; font-weight: 700; color: #1a1a2e; line-height: 1; }
-    .vc-a-price-amount { font-size: 51px; font-weight: 900; color: #1a1a2e; line-height: 1; }
-    .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 31px; color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 67px; color: #fff; }
+    .vc-a-price-dollar { font-size: 24px; font-weight: 700; color: #0d1b4b; line-height: 1; }
+    .vc-a-price-amount { font-size: 51px; font-weight: 900; color: #0d1b4b; line-height: 1; }
+    .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 31px; color: #e8c84a; }
+    .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 67px; color: #e8c84a; }
     .vc-a-price-unit { font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; line-height: 1.3; text-align: left; }
     @keyframes vc-a-ripple {
       0%   { transform: scale(0); opacity: 0.55; }
@@ -250,16 +238,16 @@
     .vc-btn-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: vc-btn-spin 0.65s linear infinite; vertical-align: middle; }
     @keyframes vc-btn-spin { to { transform: rotate(360deg); } }
     .vc-a-savings-row { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
-    .vc-a-pill-save { background: linear-gradient(90deg, #f7b600, #e07b00); color: #fff; font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 20px; white-space: nowrap; }
+    .vc-a-pill-save { background: linear-gradient(90deg, #c9a227, #a07a10); color: #fff; font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 20px; white-space: nowrap; }
     .vc-a-pill-discount { background: linear-gradient(90deg, #16a34a, #15803d); color: #fff; font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 20px; white-space: nowrap; }
     .vc-a-guarantee-text { font-size: 10px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
     @keyframes vc-a-btn-breathe {
-      0%, 100% { box-shadow: 0 4px 14px rgba(240,140,0,0.35), 0 0 0 0 rgba(240,140,0,0); }
-      50%       { box-shadow: 0 4px 20px rgba(240,140,0,0.55), 0 0 0 5px rgba(240,140,0,0.08); }
+      0%, 100% { box-shadow: 0 4px 14px rgba(201,162,39,0.35), 0 0 0 0 rgba(201,162,39,0); }
+      50%       { box-shadow: 0 4px 20px rgba(201,162,39,0.55), 0 0 0 5px rgba(201,162,39,0.08); }
     }
     @keyframes vc-a-btn-best-breathe {
-      0%, 100% { box-shadow: 0 4px 16px rgba(232,0,61,0.35), 0 0 0 0 rgba(232,0,61,0); }
-      50%       { box-shadow: 0 4px 22px rgba(232,0,61,0.55), 0 0 0 5px rgba(232,0,61,0.10); }
+      0%, 100% { box-shadow: 0 4px 16px rgba(201,162,39,0.40), 0 0 0 0 rgba(201,162,39,0); }
+      50%       { box-shadow: 0 4px 22px rgba(201,162,39,0.65), 0 0 0 5px rgba(201,162,39,0.12); }
     }
     .vc-a-btn {
       display: block;
@@ -270,35 +258,38 @@
       font-weight: 900;
       text-align: center;
       text-decoration: none;
-      color: #fff;
-      background: linear-gradient(135deg, #ffc93c 0%, #f7a800 40%, #e06000 100%);
+      color: #0d1b4b;
+      background: linear-gradient(135deg, #e8c84a 0%, #c9a227 40%, #a07a10 100%);
       border: none;
       cursor: pointer;
       letter-spacing: 0.6px;
       text-transform: uppercase;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.18);
+      text-shadow: 0 1px 2px rgba(255,255,255,0.18);
       transition: transform 0.15s cubic-bezier(.34,1.56,.64,1), box-shadow 0.15s ease, filter 0.15s ease;
-      box-shadow: 0 4px 14px rgba(240,140,0,0.40), 0 1px 0 rgba(255,255,255,0.18) inset;
+      box-shadow: 0 4px 14px rgba(201,162,39,0.45), 0 1px 0 rgba(255,255,255,0.18) inset;
       margin-bottom: 4px;
       position: relative;
       overflow: hidden;
+      animation: vc-a-btn-breathe 2.8s ease-in-out infinite;
     }
     .vc-a-btn:hover {
       transform: translateY(-3px) scale(1.025);
-      filter: brightness(1.12) saturate(1.15);
-      box-shadow: 0 10px 28px rgba(240,140,0,0.60), 0 2px 8px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.20) inset;
+      filter: brightness(1.10) saturate(1.12);
+      box-shadow: 0 10px 28px rgba(201,162,39,0.65), 0 2px 8px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.20) inset;
       text-decoration: none;
-      color: #fff;
+      color: #0d1b4b;
+      animation: none;
     }
     .vc-a-btn:active { transform: translateY(1px) scale(0.98); filter: brightness(0.96); }
     .vc-a-btn.vc-a-btn-best {
-      background: linear-gradient(135deg, #ff8c42 0%, #ff4d1c 45%, #d40032 100%);
-      box-shadow: 0 4px 16px rgba(232,0,61,0.40), 0 1px 0 rgba(255,255,255,0.15) inset;
+      background: linear-gradient(135deg, #e8c84a 0%, #c9a227 45%, #8a6510 100%);
+      box-shadow: 0 4px 16px rgba(201,162,39,0.50), 0 1px 0 rgba(255,255,255,0.15) inset;
       animation: vc-a-btn-best-breathe 2.4s ease-in-out infinite;
+      color: #0d1b4b;
     }
     .vc-a-btn.vc-a-btn-best:hover {
-      filter: brightness(1.12) saturate(1.15);
-      box-shadow: 0 10px 30px rgba(232,0,61,0.60), 0 2px 8px rgba(0,0,0,0.14);
+      filter: brightness(1.10) saturate(1.12);
+      box-shadow: 0 10px 30px rgba(201,162,39,0.70), 0 2px 8px rgba(0,0,0,0.14);
       animation: none;
     }
     .vc-a-btn-wrap { width: 100%; padding: 0 16px; box-sizing: border-box; }
@@ -307,26 +298,19 @@
     .vc-a-total-row { margin-top: 10px; font-size: 13px; color: #555; display: flex; align-items: baseline; justify-content: center; gap: 4px; flex-wrap: wrap; }
     .vc-a-total-label { font-weight: 700; color: #555; font-size: 13px; }
     .vc-a-total-full { text-decoration: line-through; color: #aaa; }
-    .vc-a-total-now { font-weight: 900; color: #1a1a2e; font-size: 18px; }
+    .vc-a-total-now { font-weight: 900; color: #0d1b4b; font-size: 18px; }
     .vc-a-shipping { font-size: 11px; font-weight: 700; margin-top: 2px; }
     .vc-a-shipping.free { color: #16a34a; }
     .vc-a-shipping.paid { color: #dc2626; }
-    .vc-a-theme-dark .vc-a-card { background: #1c1f2e; border-color: #2e3250; color: #f0f0f0; }
-    .vc-a-theme-dark .vc-a-card:not(.vc-a-best):hover { border-color: #2e3250; box-shadow: 0 16px 40px rgba(200,210,255,0.12), 0 4px 14px rgba(0,0,0,0.30); }
-    .vc-a-theme-dark .vc-a-card-headline { color: #f0f0f0; }
-    .vc-a-theme-dark .vc-a-price-dollar, .vc-a-theme-dark .vc-a-price-amount { color: #f0f0f0; }
-    .vc-a-theme-dark .vc-a-total-now { color: #f0f0f0; }
-    .vc-a-theme-dark .vc-a-card-header { border-color: #2e3250; }
-    .vc-a-theme-dark .vc-a-total-row { color: #aaa; }
     @keyframes vc-a-fadeup { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     .vc-a-card:not(.vc-a-best) { animation: vc-a-fadeup 0.5s ease both; }
     .vc-a-card:nth-child(1) { animation-delay: 0.05s; }
     .vc-a-card:nth-child(3) { animation-delay: 0.25s; }
     @keyframes vc-a-fadeup-best { from { opacity: 0; transform: translateY(24px) scale(1.06); } to { opacity: 1; transform: translateY(0) scale(1.06); } }
     @keyframes vc-a-pulse {
-      0%   { box-shadow: 0 12px 40px rgba(200,150,12,0.22), 0 4px 16px rgba(0,0,0,0.08); }
-      50%  { box-shadow: 0 16px 50px rgba(200,150,12,0.38), 0 4px 16px rgba(0,0,0,0.08); }
-      100% { box-shadow: 0 12px 40px rgba(200,150,12,0.22), 0 4px 16px rgba(0,0,0,0.08); }
+      0%   { box-shadow: 0 12px 40px rgba(201,162,39,0.25), 0 4px 16px rgba(0,0,0,0.08); }
+      50%  { box-shadow: 0 16px 50px rgba(201,162,39,0.42), 0 4px 16px rgba(0,0,0,0.08); }
+      100% { box-shadow: 0 12px 40px rgba(201,162,39,0.25), 0 4px 16px rgba(0,0,0,0.08); }
     }
     .vc-a-card.vc-a-best { animation: vc-a-fadeup-best 0.5s 0.15s ease both, vc-a-pulse 3s 0.7s ease-in-out infinite; }
     @media (max-width: 1023px) {
@@ -341,129 +325,8 @@
       .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 53px; }
       .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 25px; }
       .vc-a-btn { padding: 13px 10px; font-size: 16px; }
-      .vc-a-img-wrap { min-height: 115px; }
-      .vc-a-img-wrap img { max-height: 140px; }
-    }
-  `;
-
-  var CSS_B = `
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
-    .vc-b-bump-wrapper {
-      font-family: 'Nunito', sans-serif;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 40px 16px 32px;
-      background: transparent;
-    }
-    .vc-b-bump-title { text-align: center; font-size: clamp(18px, 3vw, 26px); font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
-    .vc-b-bump-subtitle { text-align: center; font-size: clamp(13px, 2vw, 15px); color: #555; margin-bottom: 40px; }
-    .vc-b-bump-grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 32px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    @media (min-width: 900px) {
-      .vc-b-bump-grid { flex-direction: row; flex-wrap: nowrap; gap: 20px; max-width: 1200px; align-items: center; padding: 20px 32px; }
-      .vc-b-bump-grid .vc-b-card-wrap { order: var(--vc-order-desktop, 0); }
-    }
-    @media (max-width: 899px) {
-      .vc-b-bump-grid .vc-b-card-wrap { order: var(--vc-order-mobile, 0); }
-    }
-    .vc-b-best-offer-label { text-align: center; font-size: 14px; font-weight: 800; color: #c87b1a; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
-    .vc-b-card-wrap { display: flex; flex-direction: column; align-items: center; overflow: visible; }
-    @media (min-width: 900px) { .vc-b-card-wrap { flex: 0 0 auto; overflow: visible; padding: 8px 6px; } }
-    .vc-b-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: inherit;
-      box-sizing: border-box;
-      width: 100%;
-      max-width: 360px;
-      padding: 0 0 20px 0;
-      border-radius: 16px;
-      border: 2px solid #c87b1a;
-      background: #ffffff;
-      overflow: hidden;
-      cursor: pointer;
-      will-change: transform;
-      transition: transform 0.30s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.30s ease;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-      position: relative;
-      z-index: 1;
-    }
-    .vc-b-card:hover { transform: scale(1.08); box-shadow: 0 20px 60px rgba(0,0,0,0.30); z-index: 10; }
-    .vc-b-card.vc-b-best { background: #073133; border-color: #c87b1a; box-shadow: 0 8px 40px rgba(200,123,26,0.30), 0 4px 16px rgba(0,0,0,0.20); }
-    .vc-b-card.vc-b-best:hover { transform: scale(1.08); box-shadow: 0 24px 72px rgba(200,123,26,0.60), 0 8px 32px rgba(0,0,0,0.32); }
-    @media (min-width: 900px) {
-      .vc-b-card { width: 340px; max-width: 340px; }
-      .vc-b-card.vc-b-best { width: 400px; max-width: 400px; }
-    }
-    .vc-b-card-header { width: 100%; background: #c87b1a; padding: 12px 16px 10px; text-align: center; box-sizing: border-box; }
-    .vc-b-card-headline { font-size: 16px; font-weight: 700; color: #ffffff; letter-spacing: 0.2px; }
-    .vc-b-card-desc { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.88); margin-top: 2px; }
-    .vc-b-bottles-headline { margin-top: 18px; text-align: center; line-height: 1.1; }
-    .vc-b-bottles-count { font-size: 34px; font-weight: 900; color: #111; display: block; letter-spacing: -1px; }
-    .vc-b-card.vc-b-best .vc-b-bottles-count { color: #ffffff; }
-    .vc-b-bottles-label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-top: 2px; }
-    .vc-b-card.vc-b-best .vc-b-bottles-label { color: rgba(255,255,255,0.75); }
-    .vc-b-img-wrap { width: 100%; display: flex; justify-content: center; align-items: flex-end; padding: 14px 12px 10px; box-sizing: border-box; min-height: 150px; }
-    .vc-b-img-wrap img { max-width: 100%; max-height: 170px; object-fit: contain; display: block; }
-    .vc-b-card.vc-b-best .vc-b-img-wrap { min-height: 190px; padding: 10px 8px 8px; }
-    .vc-b-card.vc-b-best .vc-b-img-wrap img { max-height: 210px; max-width: 95%; }
-    .vc-b-price-block { display: flex; justify-content: center; align-items: baseline; margin: 10px 0 4px; gap: 2px; }
-    .vc-b-price-dollar { font-size: 22px; font-weight: 900; color: #111; line-height: 1; align-self: flex-start; margin-top: 6px; }
-    .vc-b-card.vc-b-best .vc-b-price-dollar { color: #ffffff; }
-    .vc-b-price-amount { font-size: 64px; font-weight: 900; color: #111; line-height: 1; letter-spacing: -3px; }
-    .vc-b-card.vc-b-best .vc-b-price-amount { color: #ffffff; }
-    .vc-b-price-unit { font-size: 11px; font-weight: 700; color: #666; line-height: 1.3; text-transform: uppercase; align-self: flex-end; margin-bottom: 6px; margin-left: 4px; }
-    .vc-b-card.vc-b-best .vc-b-price-unit { color: rgba(255,255,255,0.7); }
-    .vc-b-checklist { width: 100%; padding: 0 18px; box-sizing: border-box; margin: 6px 0 10px; display: flex; flex-direction: column; gap: 0; align-items: center; }
-    .vc-b-check-row { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 7px 0; border-bottom: 1px dashed rgba(0,0,0,0.12); font-size: 12px; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.3px; width: 100%; }
-    .vc-b-card.vc-b-best .vc-b-check-row { border-bottom-color: rgba(255,255,255,0.12); color: #e0e0e0; }
-    .vc-b-check-row:last-child { border-bottom: none; }
-    .vc-b-check-icon { width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; border: 2px solid #c87b1a; display: flex; align-items: center; justify-content: center; }
-    .vc-b-check-icon svg { width: 10px; height: 10px; }
-    .vc-b-save-text { color: #c87b1a; }
-    .vc-b-card.vc-b-best .vc-b-save-text { color: #f0c060; }
-    .vc-b-card.vc-b-best .vc-b-check-icon { border-color: #f0c060; }
-    .vc-b-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: calc(100% - 32px); margin: 10px 16px 0; padding: 13px 10px 11px; border-radius: 8px; cursor: pointer; background: #cccccc; color: #333333; box-sizing: border-box; transition: filter 0.15s ease, transform 0.1s ease; position: relative; overflow: hidden; }
-    .vc-b-btn-main { font-size: 17px; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase; line-height: 1.1; display: flex; align-items: center; gap: 7px; }
-    .vc-b-btn-sub { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; opacity: 0.75; line-height: 1; }
-    .vc-b-btn:hover { filter: brightness(1.07); }
-    .vc-b-btn:active { transform: scale(0.98); }
-    .vc-b-btn.vc-b-btn-best { background: #f5c518; color: #1a1a1a; box-shadow: 0 4px 16px rgba(245,197,24,0.40); }
-    .vc-b-btn.vc-b-btn-best:hover { filter: brightness(1.08); }
-    .vc-b-btn-cart-icon { flex-shrink: 0; }
-    .vc-b-payment-icons { display: flex; justify-content: center; align-items: center; gap: 4px; flex-wrap: wrap; margin-top: 20px; padding: 0 12px; transform: scale(0.82); transform-origin: center; }
-    .vc-b-total-row { margin-top: 14px; text-align: center; font-size: 15px; font-weight: 700; color: #444; }
-    .vc-b-card.vc-b-best .vc-b-total-row { color: rgba(255,255,255,0.75); }
-    .vc-b-total-full { text-decoration: line-through; margin-right: 5px; opacity: 0.65; font-size: 14px; }
-    .vc-b-total-now { font-weight: 900; color: #111; font-size: 16px; }
-    .vc-b-card.vc-b-best .vc-b-total-now { color: #ffffff; }
-    .vc-b-shipping { text-align: center; font-size: 14px; font-weight: 700; margin-top: 4px; color: #555; }
-    .vc-b-shipping.free { color: #c87b1a; }
-    .vc-b-card.vc-b-best .vc-b-shipping.free { color: #f5c518; }
-    .vc-b-ripple-circle { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.35); transform: scale(0); animation: vc-b-ripple 0.55s linear; pointer-events: none; }
-    @keyframes vc-b-ripple { to { transform: scale(2.5); opacity: 0; } }
-    @keyframes vc-b-fadeup { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .vc-b-card { animation: vc-b-fadeup 0.45s ease both; }
-    .vc-b-card-wrap:nth-child(1) .vc-b-card { animation-delay: 0.05s; }
-    .vc-b-card.vc-b-best { animation-delay: 0.15s; }
-    .vc-b-card-wrap:nth-child(3) .vc-b-card { animation-delay: 0.25s; }
-    @media (max-width: 899px) {
-      .vc-b-bump-wrapper { padding: 28px 12px 24px; }
-      .vc-b-card { width: calc(100% - 32px); max-width: 480px; min-width: 320px; }
-      .vc-b-card.vc-b-best { width: calc(100% - 32px); max-width: 500px; min-width: 320px; }
-      .vc-b-price-amount { font-size: 52px; }
-      .vc-b-card.vc-b-best .vc-b-price-amount { font-size: 60px; }
+      .vc-a-img-wrap { min-height: 150px; }
+      .vc-a-img-wrap img { max-height: 182px; }
     }
   `;
 
@@ -476,20 +339,11 @@
     document.head.appendChild( s );
   }
 
-  function injectStylesB() {
-    if ( document.getElementById( 'vc-b-bump-styles' ) ) return;
-    var s = document.createElement( 'style' );
-    s.id = 'vc-b-bump-styles';
-    s.textContent = CSS_B;
-    document.head.appendChild( s );
-  }
-
   // ── Shared offer config reader ───────────────────────────────────────────
   function readOffers( container, offerClass ) {
     var DEFAULT_DESKTOP = { promo: 1, basic: 2, mid: 3 };
     var DEFAULT_MOBILE = { promo: 1, mid: 2, basic: 3 };
     var els = container.querySelectorAll( '.' + offerClass );
-    // If no children with the class, treat the container itself as a single offer
     if ( els.length === 0 ) els = [ container ];
     return Array.prototype.slice.call( els ).map( function ( el, i ) {
       var offerType = getAttr( el, 'offer', 'basic' );
@@ -528,7 +382,6 @@
 
     var card = document.createElement( 'a' );
     card.setAttribute( 'data-vc-href', cfg.href );
-    // Set href so UTMify and other tracking scripts can append their params correctly
     if ( cfg.href && cfg.href !== '#' ) card.href = cfg.href;
     card.className = 'vc-a-card smartplayer-click-event' + ( isBest ? ' vc-a-best' : '' );
     card.setAttribute( 'role', 'link' );
@@ -540,30 +393,31 @@
     inner += '<div class="vc-a-card-header"><div class="vc-a-card-headline">' + cfg.headline + '</div><div class="vc-a-card-desc">' + cfg.description + '</div></div>';
     inner += '<div class="vc-a-img-wrap">';
     if ( imgSrc ) inner += '<img src="' + imgSrc + '" alt="' + cfg.bottles + ' bottles" loading="lazy" />';
-    inner += '<span class="vc-a-guarantee-badge">' + BADGE_SVG + '</span></div>';
-    inner += '<div class="vc-a-price-block"><div class="vc-a-price-per"><span class="vc-a-price-dollar">$</span><span class="vc-a-price-amount">' + perBottle + '</span><span class="vc-a-price-unit">PER<br>BOTTLE</span></div></div>';
-    inner += '<div class="vc-a-savings-row"><span class="vc-a-pill-save">YOU SAVE $' + savings + '!</span>' + ( isBest ? '<span class="vc-a-pill-discount">BIGGEST DISCOUNT</span>' : '' ) + '</div>';
+    inner += '<div class="vc-a-guarantee-badge">' + BADGE_SVG + '</div>';
+    inner += '</div>';
+    inner += '<div class="vc-a-price-block"><div class="vc-a-price-per"><span class="vc-a-price-dollar">$</span><span class="vc-a-price-amount">' + perBottle + '</span><span class="vc-a-price-unit">Per<br>Bottle</span></div></div>';
+    inner += '<div class="vc-a-savings-row"><span class="vc-a-pill-save">YOU SAVE $' + savings + '</span>';
+    if ( isBest ) inner += '<span class="vc-a-pill-discount">BIGGEST DISCOUNT</span>';
+    inner += '</div>';
     inner += '<div class="vc-a-guarantee-text">' + cfg.guarantee + ' DAYS GUARANTEE</div>';
     var extraBtnClass = cfg.buttonClass ? ' ' + cfg.buttonClass : '';
     var btnClass = 'vc-a-btn' + ( isBest ? ' vc-a-btn-best' : '' ) + ' smartplayer-click-event' + extraBtnClass;
     inner += '<div class="vc-a-btn-wrap"><span class="' + btnClass + '" data-version="' + VERSION + '">' + cartIcon + ( cfg.buttonText || 'BUY NOW' );
-    if ( cfg.aux ) inner += '<br><span class="vc-a-btn-aux">' + cfg.aux + '</span>';
+    if ( isBest && cfg.aux ) inner += '<br><small class="vc-a-btn-aux">' + cfg.aux + '</small>';
     inner += '</span></div>';
-    inner += '<div class="vc-a-payment-icons">' + paymentIconsHTML() + '</div>';
-    inner += '<div class="vc-a-total-row"><span class="vc-a-total-label">Total:</span><span class="vc-a-total-full">$' + cfg.full + '</span><span class="vc-a-total-now">$' + cfg.total + '</span></div>';
+    inner += '<div class="vc-a-payment-icons">' + paymentIconsHTML( 'sm' ) + '</div>';
+    inner += '<div class="vc-a-total-row"><span class="vc-a-total-label">TOTAL:</span><span class="vc-a-total-full">$' + cfg.full + '</span><span class="vc-a-total-now">$' + cfg.total + '</span></div>';
     inner += '<div class="vc-a-shipping ' + ( shippingFree ? 'free' : 'paid' ) + '">' + ( shippingFree ? '+ FREE SHIPPING' : '+ $' + cfg.shipping + ' SHIPPING' ) + '</div>';
     card.innerHTML = inner;
 
-    var _cardAActivating = false;
+    var _cardActivating = false;
     function handleCardActivation( e ) {
-      if ( _cardAActivating ) return; // prevent double-click
-      _cardAActivating = true;
-      e.preventDefault(); // Note: do NOT stopPropagation — SmartPlayer/Vturb listens on window (bubble phase)
-      // Track click before navigation
+      if ( _cardActivating ) return;
+      _cardActivating = true;
+      e.preventDefault();
       trackEvent( container, 'click', cfg.offer );
       var btn = card.querySelector( '.vc-a-btn' );
       if ( btn ) {
-        // Ripple effect
         var rect = btn.getBoundingClientRect();
         var size = Math.max( rect.width, rect.height ) * 1.2;
         var circle = document.createElement( 'span' );
@@ -573,15 +427,17 @@
         circle.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + ( cx - rect.left - size / 2 ) + 'px;top:' + ( cy - rect.top - size / 2 ) + 'px;';
         btn.appendChild( circle );
         circle.addEventListener( 'animationend', function () { circle.remove(); } );
-        // Spinner feedback — replace button content with spinner
         var origHTML = btn.innerHTML;
         btn.innerHTML = '<span class="vc-btn-spinner"></span>';
         btn.style.opacity = '0.85';
         btn.style.pointerEvents = 'none';
-        // Restore on error (safety)
-        setTimeout( function () { btn.innerHTML = origHTML; btn.style.opacity = ''; btn.style.pointerEvents = ''; _cardAActivating = false; }, 3000 );
+        setTimeout( function () {
+          btn.innerHTML = origHTML;
+          btn.style.opacity = '';
+          btn.style.pointerEvents = '';
+          _cardActivating = false;
+        }, 3000 );
       }
-      // Prefer card.href (live value — UTMify may have appended params) over data-vc-href (original)
       var dest = ( card.href && card.href !== window.location.href ) ? card.href : ( card.getAttribute( 'data-vc-href' ) || cfg.href );
       if ( dest && dest !== '#' ) setTimeout( function () { window.location.href = dest; }, 250 );
     }
@@ -594,19 +450,16 @@
 
   function renderA( container ) {
     injectStylesA();
-    var explicitTheme = getAttr( container, 'theme', '' );
-    var theme = explicitTheme === 'dark' ? 'vc-a-theme-dark' : '';
     var title = container.hasAttribute( 'data-title' ) ? container.getAttribute( 'data-title' ) : '';
     var subtitle = container.hasAttribute( 'data-subtitle' ) ? container.getAttribute( 'data-subtitle' ) : '';
     var wrapper = document.createElement( 'div' );
-    wrapper.className = 'vc-a-bump-wrapper ' + theme;
+    wrapper.className = 'vc-a-bump-wrapper';
     var headerHTML = '';
     if ( title ) headerHTML += '<div class="vc-a-bump-title">' + title + '</div>';
     if ( subtitle ) headerHTML += '<div class="vc-a-bump-subtitle">' + subtitle + '</div>';
     wrapper.innerHTML = headerHTML;
     var grid = document.createElement( 'div' );
     grid.className = 'vc-a-bump-grid';
-    // Support both vc-offer (generic) and vc-a-offer (explicit)
     var offerClass = container.querySelectorAll( '.vc-a-offer' ).length > 0 ? 'vc-a-offer' : 'vc-offer';
     var offers = readOffers( container, offerClass );
     offers.forEach( function ( cfg ) {
@@ -619,129 +472,6 @@
     container.innerHTML = '';
     container.appendChild( wrapper );
     container.dispatchEvent( new CustomEvent( 'vc:rendered', { bubbles: true, detail: { variant: 'A', version: VERSION } } ) );
-  }
-
-  // ── Variant B renderer ───────────────────────────────────────────────────
-  function buildCardB( cfg, container ) {
-    var isBest = cfg.offer === 'promo';
-    var imgSrc = IMAGES[ String( cfg.bottles ) ] || '';
-    var shippingFree = ( cfg.shipping === 'Free' || cfg.shipping === '0' || cfg.shipping === '' );
-    var perBottle = cfg.valueRound === 'yes' ? Math.round( cfg.total / cfg.bottles ) : ( cfg.total / cfg.bottles ).toFixed( 2 );
-    var savings = cfg.full - cfg.total;
-    var cartSVG = '<svg class="vc-b-btn-cart-icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
-    var checkSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>';
-
-    var wrap = document.createElement( 'div' );
-    wrap.className = 'vc-b-card-wrap';
-    if ( isBest ) {
-      var bestLabel = document.createElement( 'div' );
-      bestLabel.className = 'vc-b-best-offer-label';
-      bestLabel.innerHTML = '&#9733; BEST OFFER! &#9733;';
-      wrap.appendChild( bestLabel );
-    }
-
-    var card = document.createElement( 'a' );
-    card.setAttribute( 'data-vc-href', cfg.href );
-    // Set href so UTMify and other tracking scripts can append their params correctly
-    if ( cfg.href && cfg.href !== '#' ) card.href = cfg.href;
-    card.className = 'vc-b-card smartplayer-click-event' + ( isBest ? ' vc-b-best' : '' );
-    card.setAttribute( 'role', 'link' );
-    card.setAttribute( 'data-version', VERSION );
-    card.style.cursor = 'pointer';
-
-    var inner = '';
-    inner += '<div class="vc-b-card-header"><div class="vc-b-card-headline">' + cfg.headline + '</div><div class="vc-b-card-desc">' + cfg.description + '</div></div>';
-    inner += '<div class="vc-b-bottles-headline"><span class="vc-b-bottles-count">' + cfg.bottles + ' BOTTLES</span><span class="vc-b-bottles-label">' + ( cfg.bottles * 30 ) + ' Day Supply</span></div>';
-    inner += '<div class="vc-b-img-wrap">';
-    if ( imgSrc ) inner += '<img src="' + imgSrc + '" alt="' + cfg.bottles + ' bottles" loading="lazy" />';
-    inner += '</div>';
-    inner += '<div class="vc-b-price-block"><span class="vc-b-price-dollar">$</span><span class="vc-b-price-amount">' + perBottle + '</span><span class="vc-b-price-unit">Per<br>Bottle</span></div>';
-    inner += '<div class="vc-b-checklist">';
-    inner += '<div class="vc-b-check-row vc-b-save-row"><span class="vc-b-check-icon">' + checkSVG + '</span><span class="vc-b-save-text">YOU SAVE $' + savings + '</span></div>';
-    if ( isBest ) inner += '<div class="vc-b-check-row"><span class="vc-b-check-icon">' + checkSVG + '</span><span>BIGGEST DISCOUNT</span></div>';
-    inner += '<div class="vc-b-check-row"><span class="vc-b-check-icon">' + checkSVG + '</span><span>' + cfg.guarantee + ' DAYS GUARANTEE</span></div>';
-    inner += '</div>';
-    var extraBtnClass = cfg.buttonClass ? ' ' + cfg.buttonClass : '';
-    var btnClass = 'vc-b-btn' + ( isBest ? ' vc-b-btn-best' : '' ) + ' smartplayer-click-event' + extraBtnClass;
-    inner += '<span class="' + btnClass + '" data-version="' + VERSION + '"><span class="vc-b-btn-main">' + cartSVG + ( cfg.buttonText || 'BUY NOW!' ) + '</span>';
-    if ( isBest && cfg.aux ) inner += '<span class="vc-b-btn-sub">' + cfg.aux + '</span>';
-    inner += '</span>';
-    inner += '<div class="vc-b-payment-icons">' + paymentIconsHTML( 'lg' ) + '</div>';
-    inner += '<div class="vc-b-total-row">TOTAL: <span class="vc-b-total-full">$' + cfg.full + '</span><span class="vc-b-total-now">$' + cfg.total + '</span></div>';
-    inner += '<div class="vc-b-shipping ' + ( shippingFree ? 'free' : 'paid' ) + '">' + ( shippingFree ? '+ FREE SHIPPING' : '+ $' + cfg.shipping + ' SHIPPING' ) + '</div>';
-    card.innerHTML = inner;
-
-    var _cardBActivating = false;
-    function handleCardBActivation( e ) {
-      if ( _cardBActivating ) return; // prevent double-click
-      _cardBActivating = true;
-      e.preventDefault(); // Note: do NOT stopPropagation — SmartPlayer/Vturb listens on window (bubble phase)
-      // Track click before navigation
-      trackEvent( container, 'click', cfg.offer );
-      var btn = card.querySelector( '.vc-b-btn' );
-      if ( btn ) {
-        // Ripple effect
-        var rect = btn.getBoundingClientRect();
-        var size = Math.max( rect.width, rect.height ) * 1.2;
-        var circle = document.createElement( 'span' );
-        circle.className = 'vc-b-ripple-circle';
-        var cx = e.clientX != null ? e.clientX : rect.left + rect.width / 2;
-        var cy = e.clientY != null ? e.clientY : rect.top + rect.height / 2;
-        circle.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + ( cx - rect.left - size / 2 ) + 'px;top:' + ( cy - rect.top - size / 2 ) + 'px;';
-        btn.appendChild( circle );
-        circle.addEventListener( 'animationend', function () { circle.remove(); } );
-        // Spinner feedback — replace button content with spinner
-        var btnMain = btn.querySelector( '.vc-b-btn-main' );
-        var origHTML = btnMain ? btnMain.innerHTML : btn.innerHTML;
-        if ( btnMain ) { btnMain.innerHTML = '<span class="vc-btn-spinner"></span>'; }
-        else { btn.innerHTML = '<span class="vc-btn-spinner"></span>'; }
-        btn.style.opacity = '0.85';
-        btn.style.pointerEvents = 'none';
-        // Restore on error (safety)
-        setTimeout( function () {
-          if ( btnMain ) btnMain.innerHTML = origHTML; else btn.innerHTML = origHTML;
-          btn.style.opacity = ''; btn.style.pointerEvents = ''; _cardBActivating = false;
-        }, 3000 );
-      }
-      // Prefer card.href (live value — UTMify may have appended params) over data-vc-href (original)
-      var dest = ( card.href && card.href !== window.location.href ) ? card.href : ( card.getAttribute( 'data-vc-href' ) || cfg.href );
-      if ( dest && dest !== '#' ) setTimeout( function () { window.location.href = dest; }, 250 );
-    }
-    card.addEventListener( 'click', handleCardBActivation );
-    card.addEventListener( 'keydown', function ( e ) {
-      if ( e.key === 'Enter' || e.key === ' ' ) handleCardBActivation( e );
-    } );
-    wrap.appendChild( card );
-    return wrap;
-  }
-
-  function renderB( container ) {
-    injectStylesB();
-    var explicitTheme = getAttr( container, 'theme', '' );
-    var theme = explicitTheme === 'dark' ? 'vc-b-theme-dark' : 'vc-b-theme-light';
-    var title = container.hasAttribute( 'data-title' ) ? container.getAttribute( 'data-title' ) : '';
-    var subtitle = container.hasAttribute( 'data-subtitle' ) ? container.getAttribute( 'data-subtitle' ) : '';
-    var wrapper = document.createElement( 'div' );
-    wrapper.className = 'vc-b-bump-wrapper ' + theme;
-    var headerHTML = '';
-    if ( title ) headerHTML += '<div class="vc-b-bump-title">' + title + '</div>';
-    if ( subtitle ) headerHTML += '<div class="vc-b-bump-subtitle">' + subtitle + '</div>';
-    wrapper.innerHTML = headerHTML;
-    var grid = document.createElement( 'div' );
-    grid.className = 'vc-b-bump-grid';
-    // Support both vc-offer (generic) and vc-b-offer (explicit)
-    var offerClass = container.querySelectorAll( '.vc-b-offer' ).length > 0 ? 'vc-b-offer' : 'vc-offer';
-    var offers = readOffers( container, offerClass );
-    offers.forEach( function ( cfg ) {
-      var wrap = buildCardB( cfg, container );
-      wrap.style.setProperty( '--vc-order-mobile', String( cfg.mobileOrder ) );
-      wrap.style.setProperty( '--vc-order-desktop', String( cfg.desktopOrder ) );
-      grid.appendChild( wrap );
-    } );
-    wrapper.appendChild( grid );
-    container.innerHTML = '';
-    container.appendChild( wrapper );
-    container.dispatchEvent( new CustomEvent( 'vc:rendered', { bubbles: true, detail: { variant: 'B', version: VERSION } } ) );
   }
 
   // ── A/B Tracking ────────────────────────────────────────────────────────
@@ -766,14 +496,12 @@
       sessionId: getSessionId(),
       ts: Date.now()
     } );
-    // Use sendBeacon for clicks — guaranteed to fire even when page is navigating away
     if ( eventType === 'click' && typeof navigator !== 'undefined' && navigator.sendBeacon ) {
       try {
         navigator.sendBeacon( trackUrl, new Blob( [ payload ], { type: 'application/json' } ) );
         return;
       } catch ( e ) { }
     }
-    // Fallback: fetch with keepalive
     try {
       fetch( trackUrl, {
         method: 'POST',
@@ -783,28 +511,20 @@
       } );
     } catch ( e ) { }
   }
-  // ── Main render dispatcher ───────────────────────────────────────────────
+
+  // ── Main render dispatcher — always Variant A ────────────────────────────
   function render( container ) {
-    var variant = pickVariant( container );
-    container.setAttribute( 'data-vc-variant', variant );
-    if ( variant === 'A' ) {
-      renderA( container );
-    } else {
-      renderB( container );
-    }
-    // Track impression after render
+    container.setAttribute( 'data-vc-variant', 'A' );
+    renderA( container );
     setTimeout( function () { trackEvent( container, 'impression', null ); }, 200 );
-    // Track clicks on rendered BUY NOW buttons and cards
     container.addEventListener( 'click', function ( e ) {
-      // Target the rendered card element which has data-vc-href
       var card = e.target.closest( '[data-vc-href]' );
       if ( card ) {
         var offerType = card.getAttribute( 'data-offer' ) || null;
         trackEvent( container, 'click', offerType );
         return;
       }
-      // Fallback: target original offer anchors or rendered buttons
-      var link = e.target.closest( '.vc-offer, .vc-a-offer, .vc-b-offer, .vc-a-btn, .vc-b-btn' );
+      var link = e.target.closest( '.vc-offer, .vc-a-offer, .vc-a-btn' );
       if ( !link ) return;
       var offerType = link.getAttribute( 'data-offer' ) || null;
       trackEvent( container, 'click', offerType );
@@ -813,9 +533,9 @@
 
   // ── Preserve original hrefs before platform scripts mutate them ──────────
   function snapshotHrefs() {
-    var sel = '.vc-bump, .vc-a-bump, .vc-b-bump';
+    var sel = '.vc-bump, .vc-a-bump';
     document.querySelectorAll( sel ).forEach( function ( container ) {
-      container.querySelectorAll( '.vc-offer, .vc-a-offer, .vc-b-offer' ).forEach( function ( el ) {
+      container.querySelectorAll( '.vc-offer, .vc-a-offer' ).forEach( function ( el ) {
         if ( !el.hasAttribute( 'data-vc-original-href' ) ) {
           var raw = el.getAttribute( 'href' ) || el.getAttribute( 'data-href' ) || '';
           if ( raw && raw.indexOf( 'javascript:' ) !== 0 ) {
@@ -835,7 +555,7 @@
 
   // ── Auto-init ────────────────────────────────────────────────────────────
   function init() {
-    document.querySelectorAll( '.vc-bump, .vc-a-bump, .vc-b-bump' ).forEach( render );
+    document.querySelectorAll( '.vc-bump, .vc-a-bump' ).forEach( render );
   }
 
   if ( document.readyState === 'loading' ) {
@@ -844,6 +564,6 @@
     init();
   }
 
-  global.NeurotydeBump = { render: render, renderA: renderA, renderB: renderB, init: init, version: VERSION };
+  global.NeurotydeBump = { render: render, renderA: renderA, init: init, version: VERSION };
 
 }( window ) );
