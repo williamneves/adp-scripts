@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.0.1';
+  var VERSION = '1.0.2';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -401,7 +401,7 @@
 
     var inner = '';
     if ( isBest ) inner += '<span class="vc-a-badge-top">' + ( cfg.headline || 'Best Value!' ) + '</span>';
-    inner += '<div class="vc-a-card-header">' + ( isBest ? '' : '<div class="vc-a-card-headline">' + cfg.headline + '</div>' ) + '<div class="vc-a-card-desc">' + cfg.description + '</div></div>';
+    inner += '<div class="vc-a-card-header"><div class="vc-a-card-headline">' + cfg.headline + '</div><div class="vc-a-card-desc">' + cfg.description + '</div></div>';
     inner += '<div class="vc-a-img-wrap">';
     if ( imgSrc ) inner += '<img src="' + imgSrc + '" alt="' + cfg.bottles + ' bottles" loading="lazy" />';
     inner += '<div class="vc-a-guarantee-badge">' + BADGE_SVG + '</div>';
