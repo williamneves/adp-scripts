@@ -1,13 +1,13 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.0.1';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
     '2': 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663028428251/KkzuZlmvDfLPZurL.webp',
     '3': 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663028428251/grAXAjPDScZvQDCT.webp',
-    '6': 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663028428251/OEMrRwpfKHbPuHos.webp'
+    '6': 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663028428251/qrEIVBMUDoBjYIma.png'
   };
 
   // ── Payment icons ────────────────────────────────────────────────────────
