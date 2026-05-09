@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.0.2';
+  var VERSION = '1.0.3';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -164,7 +164,7 @@
       border-width: 3px;
       box-shadow: 0 28px 60px rgba(201,162,39,0.45), 0 0 0 4px rgba(232,200,74,0.22), 0 6px 20px rgba(0,0,0,0.10);
     }
-    .vc-a-card.vc-a-best .vc-a-card-headline { color: #e8c84a; }
+    .vc-a-card.vc-a-best .vc-a-card-headline { color: #0d1b4b; }
     .vc-a-card.vc-a-best .vc-a-card-header { border-color: rgba(201,162,39,0.35); }
     .vc-a-card.vc-a-best .vc-a-price-unit { color: #fff; }
     .vc-a-card.vc-a-best .vc-a-guarantee-text { color: rgba(255,255,255,0.85); }
@@ -172,7 +172,7 @@
     .vc-a-card.vc-a-best .vc-a-total-label { color: #fff; }
     .vc-a-card.vc-a-best .vc-a-total-full { color: rgba(255,255,255,0.55); }
     .vc-a-card.vc-a-best .vc-a-total-now { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-card-desc { color: rgba(255,255,255,0.75); }
+    .vc-a-card.vc-a-best .vc-a-card-desc { color: #555; }
     .vc-a-badge-top {
       position: absolute;
       top: -22px;
@@ -400,8 +400,8 @@
     card.style.cursor = 'pointer';
 
     var inner = '';
-    if ( isBest ) inner += '<span class="vc-a-badge-top">' + ( cfg.headline || 'Best Value!' ) + '</span>';
-    inner += '<div class="vc-a-card-header"><div class="vc-a-card-headline">' + cfg.headline + '</div><div class="vc-a-card-desc">' + cfg.description + '</div></div>';
+    if ( isBest ) inner += '<span class="vc-a-badge-top">BEST VALUE!</span>';
+    inner += '<div class="vc-a-card-header"><div class="vc-a-card-headline">' + cfg.description + '</div></div>';
     inner += '<div class="vc-a-img-wrap">';
     if ( imgSrc ) inner += '<img src="' + imgSrc + '" alt="' + cfg.bottles + ' bottles" loading="lazy" />';
     inner += '<div class="vc-a-guarantee-badge">' + BADGE_SVG + '</div>';
