@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.0.1';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -118,7 +118,7 @@
       .vc-a-bump-grid .vc-a-card { order: var(--vc-order-mobile, 0); }
     }
     .vc-a-card {
-      background: linear-gradient(180deg, #ffffff 0%, #ffffff 40%, #fde8e8 70%, #f5c6c6 100%);
+      background: #ffffff;
       border-radius: 18px;
       border: 2px solid #e05555;
       padding: 28px 24px 24px;
@@ -150,8 +150,8 @@
     .vc-a-card.vc-a-best {
       border-color: #e05555;
       border-width: 2.5px;
-      background: linear-gradient(180deg, #ffffff 0%, #ffffff 35%, #c0392b 70%, #a93226 100%);
-      color: #f0f0f0;
+      background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, rgba(224,85,85,0.12) 80%, rgba(224,85,85,0.22) 100%);
+      color: #1a1a1a;
       box-shadow: 0 12px 40px rgba(224,85,85,0.30), 0 4px 16px rgba(0,0,0,0.25);
       transform: scale(1.06);
       z-index: 2;
@@ -164,15 +164,15 @@
       border-width: 3px;
       box-shadow: 0 28px 60px rgba(224,85,85,0.45), 0 0 0 4px rgba(240,128,128,0.22), 0 6px 20px rgba(0,0,0,0.10);
     }
-    .vc-a-card.vc-a-best .vc-a-card-headline { color: #f08080; }
+    .vc-a-card.vc-a-best .vc-a-card-headline { color: #a93226; }
     .vc-a-card.vc-a-best .vc-a-card-header { border-color: rgba(224,85,85,0.35); }
-    .vc-a-card.vc-a-best .vc-a-price-unit { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-guarantee-text { color: rgba(255,255,255,0.85); }
-    .vc-a-card.vc-a-best .vc-a-total-row { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-total-label { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-total-full { color: rgba(255,255,255,0.55); }
-    .vc-a-card.vc-a-best .vc-a-total-now { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-card-desc { color: rgba(255,255,255,0.75); }
+    .vc-a-card.vc-a-best .vc-a-price-unit { color: #555; }
+    .vc-a-card.vc-a-best .vc-a-guarantee-text { color: #666; }
+    .vc-a-card.vc-a-best .vc-a-total-row { color: #555; }
+    .vc-a-card.vc-a-best .vc-a-total-label { color: #555; }
+    .vc-a-card.vc-a-best .vc-a-total-full { color: #aaa; }
+    .vc-a-card.vc-a-best .vc-a-total-now { color: #a93226; }
+    .vc-a-card.vc-a-best .vc-a-card-desc { color: #666; }
     .vc-a-badge-top {
       position: absolute;
       top: -22px;
@@ -229,8 +229,8 @@
     .vc-a-price-per { display: flex; align-items: flex-end; justify-content: center; gap: 4px; }
     .vc-a-price-dollar { font-size: 24px; font-weight: 700; color: #a93226; line-height: 1; }
     .vc-a-price-amount { font-size: 51px; font-weight: 900; color: #a93226; line-height: 1; }
-    .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 31px; color: #f08080; }
-    .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 67px; color: #f08080; }
+    .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 31px; color: #a93226; font-weight: 900; }
+    .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 67px; color: #a93226; font-weight: 900; }
     .vc-a-price-unit { font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; line-height: 1.3; text-align: left; }
     @keyframes vc-a-ripple {
       0%   { transform: scale(0); opacity: 0.55; }
@@ -269,7 +269,7 @@
       text-align: center;
       text-decoration: none;
       color: #fff;
-      background: linear-gradient(135deg, #f08080 0%, #e05555 40%, #a93226 100%);
+      background: linear-gradient(135deg, #e05555 0%, #c0392b 60%, #a93226 100%);
       border: none;
       cursor: pointer;
       letter-spacing: 0.6px;
@@ -292,7 +292,7 @@
     }
     .vc-a-btn:active { transform: translateY(1px) scale(0.98); filter: brightness(0.96); }
     .vc-a-btn.vc-a-btn-best {
-      background: linear-gradient(135deg, #f08080 0%, #e05555 45%, #8a1a1a 100%);
+      background: linear-gradient(135deg, #e05555 0%, #c0392b 60%, #a93226 100%);
       box-shadow: 0 4px 16px rgba(224,85,85,0.50), 0 1px 0 rgba(255,255,255,0.15) inset;
       animation: vc-a-btn-best-breathe 2.4s ease-in-out infinite;
       color: #fff;
