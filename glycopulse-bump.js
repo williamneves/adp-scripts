@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.0.1';
+  var VERSION = '1.0.2';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -268,15 +268,15 @@
       font-weight: 900;
       text-align: center;
       text-decoration: none;
-      color: #fff;
-      background: linear-gradient(135deg, #e05555 0%, #c0392b 60%, #a93226 100%);
-      border: none;
+      color: #c0392b;
+      background: #ffffff;
+      border: 2px solid #e05555;
       cursor: pointer;
       letter-spacing: 0.6px;
       text-transform: uppercase;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.35);
-      transition: transform 0.15s cubic-bezier(.34,1.56,.64,1), box-shadow 0.15s ease, filter 0.15s ease;
-      box-shadow: 0 4px 14px rgba(224,85,85,0.45), 0 1px 0 rgba(255,255,255,0.18) inset;
+      text-shadow: none;
+      transition: transform 0.15s cubic-bezier(.34,1.56,.64,1), box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+      box-shadow: 0 2px 8px rgba(224,85,85,0.18);
       margin-bottom: 4px;
       position: relative;
       overflow: hidden;
@@ -284,21 +284,26 @@
     }
     .vc-a-btn:hover {
       transform: translateY(-3px) scale(1.025);
-      filter: brightness(1.10) saturate(1.12);
-      box-shadow: 0 10px 28px rgba(224,85,85,0.65), 0 2px 8px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.20) inset;
+      background: #fff5f5;
+      border-color: #c0392b;
+      color: #a93226;
+      box-shadow: 0 8px 22px rgba(224,85,85,0.28), 0 2px 8px rgba(0,0,0,0.06);
       text-decoration: none;
-      color: #fff;
       animation: none;
     }
     .vc-a-btn:active { transform: translateY(1px) scale(0.98); filter: brightness(0.96); }
     .vc-a-btn.vc-a-btn-best {
       background: linear-gradient(135deg, #e05555 0%, #c0392b 60%, #a93226 100%);
+      border: 2px solid transparent;
       box-shadow: 0 4px 16px rgba(224,85,85,0.50), 0 1px 0 rgba(255,255,255,0.15) inset;
       animation: vc-a-btn-best-breathe 2.4s ease-in-out infinite;
       color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.30);
     }
     .vc-a-btn.vc-a-btn-best:hover {
-      filter: brightness(1.10) saturate(1.12);
+      background: linear-gradient(135deg, #e05555 0%, #c0392b 60%, #a93226 100%);
+      color: #fff;
+      filter: brightness(1.08) saturate(1.10);
       box-shadow: 0 10px 30px rgba(224,85,85,0.70), 0 2px 8px rgba(0,0,0,0.14);
       animation: none;
     }
