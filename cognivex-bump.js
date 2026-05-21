@@ -1,7 +1,7 @@
 ( function ( global ) {
   'use strict';
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.1.0';
 
   // ── Embedded product images ──────────────────────────────────────────────
   var IMAGES = {
@@ -53,9 +53,9 @@
   var BADGE_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" width="72" height="72">'
     + '<circle cx="45" cy="45" r="43" fill="#7c5cbf" stroke="#c4a8f0" stroke-width="2"/>'
     + '<circle cx="45" cy="45" r="36" fill="#2d1b8e"/>'
-    + '<text x="45" y="30" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#c4a8f0">MONEY BACK</text>'
-    + '<text x="45" y="48" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#c4a8f0">100%</text>'
-    + '<text x="45" y="62" text-anchor="middle" font-family="Arial" font-size="7.5" font-weight="bold" fill="#c4a8f0">GUARANTEED</text>'
+    + '<text x="45" y="30" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#ffffff">MONEY BACK</text>'
+    + '<text x="45" y="48" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#ffffff">100%</text>'
+    + '<text x="45" y="62" text-anchor="middle" font-family="Arial" font-size="7.5" font-weight="bold" fill="#ffffff">GUARANTEED</text>'
     + '</svg>';
 
   // ── Shared helper ────────────────────────────────────────────────────────
@@ -118,9 +118,9 @@
       .vc-a-bump-grid .vc-a-card { order: var(--vc-order-mobile, 0); }
     }
     .vc-a-card {
-      background: linear-gradient(180deg, #ffffff 0%, #ffffff 40%, #ede8f8 70%, #d4c8f0 100%);
+      background: #ffffff;
       border-radius: 18px;
-      border: 2px solid #7c5cbf;
+      border: 2px solid #c4a8f0;
       padding: 28px 24px 24px;
       flex: 1 1 300px;
       max-width: 360px;
@@ -134,11 +134,11 @@
       color: inherit;
       position: relative;
       transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease, border-color 0.2s ease;
-      box-shadow: 0 2px 12px rgba(45,27,142,0.10);
+      box-shadow: 0 2px 12px rgba(45,27,142,0.08);
     }
     .vc-a-card:not(.vc-a-best):hover {
       transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 16px 40px rgba(124,92,191,0.22), 0 4px 14px rgba(0,0,0,0.07);
+      box-shadow: 0 16px 40px rgba(124,92,191,0.18), 0 4px 14px rgba(0,0,0,0.06);
       border-color: #7c5cbf;
       text-decoration: none;
       color: inherit;
@@ -150,7 +150,7 @@
     .vc-a-card.vc-a-best {
       border-color: #7c5cbf;
       border-width: 2.5px;
-      background: linear-gradient(180deg, #ffffff 0%, #ffffff 35%, #4a2fa0 70%, #2d1b8e 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #ffffff 20%, #5a3ab8 55%, #2d1b8e 100%);
       color: #f0f0f0;
       box-shadow: 0 12px 40px rgba(124,92,191,0.30), 0 4px 16px rgba(0,0,0,0.25);
       transform: scale(1.06);
@@ -212,25 +212,25 @@
       min-height: 160px;
     }
     .vc-a-img-wrap img {
-      width: 80%;
-      min-width: 140px;
-      max-width: 260px;
+      width: 90%;
+      min-width: 160px;
+      max-width: 290px;
       height: auto;
       object-fit: contain;
       transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), filter 0.3s ease;
       filter: drop-shadow(0 6px 14px rgba(0,0,0,0.12));
     }
     .vc-a-card.vc-a-best .vc-a-img-wrap img {
-      width: 85%;
-      max-width: 310px;
+      width: 92%;
+      max-width: 340px;
     }
     .vc-a-guarantee-badge { position: absolute; bottom: -8px; right: 0; }
     .vc-a-price-block { margin: 8px 0 6px; }
     .vc-a-price-per { display: flex; align-items: flex-end; justify-content: center; gap: 4px; }
     .vc-a-price-dollar { font-size: 24px; font-weight: 700; color: #2d1b8e; line-height: 1; }
     .vc-a-price-amount { font-size: 51px; font-weight: 900; color: #2d1b8e; line-height: 1; }
-    .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 31px; color: #c4a8f0; }
-    .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 67px; color: #c4a8f0; }
+    .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 34px; color: #2d1b8e; }
+    .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 74px; color: #2d1b8e; font-weight: 900; }
     .vc-a-price-unit { font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; line-height: 1.3; text-align: left; }
     @keyframes vc-a-ripple {
       0%   { transform: scale(0); opacity: 0.55; }
@@ -332,12 +332,12 @@
       .vc-a-card-desc { font-size: 12px; }
       .vc-a-price-amount { font-size: 40px; }
       .vc-a-price-dollar { font-size: 19px; }
-      .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 53px; }
-      .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 25px; }
+      .vc-a-card.vc-a-best .vc-a-price-amount { font-size: 60px; }
+      .vc-a-card.vc-a-best .vc-a-price-dollar { font-size: 28px; }
       .vc-a-btn { padding: 13px 10px; font-size: 16px; }
       .vc-a-img-wrap { min-height: 120px; }
-      .vc-a-img-wrap img { width: 78%; min-width: 110px; max-width: 220px; }
-      .vc-a-card.vc-a-best .vc-a-img-wrap img { width: 82%; max-width: 260px; }
+      .vc-a-img-wrap img { width: 88%; min-width: 130px; max-width: 250px; }
+      .vc-a-card.vc-a-best .vc-a-img-wrap img { width: 90%; max-width: 290px; }
     }
   `;
 
