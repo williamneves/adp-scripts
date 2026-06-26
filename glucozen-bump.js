@@ -118,7 +118,7 @@
       .vc-a-bump-grid .vc-a-card { order: var(--vc-order-mobile, 0); }
     }
     .vc-a-card {
-      background: linear-gradient(180deg, #ffffff 0%, #f5fdfe 60%, #e8f9fb 100%);
+      background: #ffffff;
       border-radius: 18px;
       border: 2px solid #c8f0f5;
       padding: 28px 24px 24px;
@@ -150,7 +150,7 @@
     .vc-a-card.vc-a-best {
       border-color: #5bc8d8;
       border-width: 2.5px;
-      background: linear-gradient(180deg, #e0f9fc 0%, #b2eef7 30%, #0a9ab5 65%, #0a7a8f 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #f5fdfe 60%, #e8f9fb 100%);
       color: #f0f0f0;
       box-shadow: 0 12px 40px rgba(91,200,216,0.35), 0 4px 16px rgba(0,0,0,0.20);
       transform: scale(1.06);
