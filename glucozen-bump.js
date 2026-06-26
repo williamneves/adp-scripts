@@ -164,15 +164,17 @@
       border-width: 3px;
       box-shadow: 0 28px 60px rgba(91,200,216,0.45), 0 0 0 4px rgba(168,230,239,0.22), 0 6px 20px rgba(0,0,0,0.10);
     }
-    .vc-a-card.vc-a-best .vc-a-card-headline { color: #a8e6ef; }
+    .vc-a-card.vc-a-best .vc-a-card-headline { color: #0a5a6e; }
+    .vc-a-card.vc-a-best .vc-a-shipping.free { color: #0a7a3a; }
+    .vc-a-card.vc-a-best .vc-a-shipping.paid { color: #b91c1c; }
     .vc-a-card.vc-a-best .vc-a-card-header { border-color: rgba(91,200,216,0.35); }
-    .vc-a-card.vc-a-best .vc-a-price-unit { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-guarantee-text { color: rgba(255,255,255,0.85); }
-    .vc-a-card.vc-a-best .vc-a-total-row { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-total-label { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-total-full { color: rgba(255,255,255,0.55); }
-    .vc-a-card.vc-a-best .vc-a-total-now { color: #fff; }
-    .vc-a-card.vc-a-best .vc-a-card-desc { color: rgba(255,255,255,0.75); }
+    .vc-a-card.vc-a-best .vc-a-price-unit { color: #0a7a8f; }
+    .vc-a-card.vc-a-best .vc-a-guarantee-text { color: #0a7a8f; }
+    .vc-a-card.vc-a-best .vc-a-total-row { color: #0a5a6e; }
+    .vc-a-card.vc-a-best .vc-a-total-label { color: #0a5a6e; }
+    .vc-a-card.vc-a-best .vc-a-total-full { color: rgba(10,90,110,0.55); }
+    .vc-a-card.vc-a-best .vc-a-total-now { color: #0a5a6e; }
+    .vc-a-card.vc-a-best .vc-a-card-desc { color: #4a8a9a; }
     .vc-a-badge-top {
       position: absolute;
       top: -22px;
